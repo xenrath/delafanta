@@ -19,6 +19,7 @@ class ProdukController extends Controller
     public function index()
     {
         $produks = Produk::get();
+        // return $produks;
 
         return view('admin.produk.index', compact('produks'));
     }
@@ -101,17 +102,18 @@ class ProdukController extends Controller
         }
 
         $kode = $this->kode();
+
         $gambar = array();
         if ($request->has('gambar')) {
             foreach ($request->file('gambar') as $key => $g) {
-                $gambar[] = $this->namagambar($g, $kode, $key);
+                $gambar[] = $this->namagambar($g, $kode);
             }
         }
 
         $produk = Produk::create(array_merge($request->all(), [
             'kode' => $kode,
-            'warna' => json_encode($request->warna),
-            'gambar' => json_encode($gambar)
+            'warna' => $request->warna,
+            'gambar' => $gambar
         ]));
 
         if ($produk) {
@@ -152,6 +154,117 @@ class ProdukController extends Controller
         return view('admin.produk.edit', compact('produk', 'kategoris', 'warnas'));
     }
 
+    public function update(Request $request, $id)
+    {
+        $produk = Produk::where('id', $id)->first();
+
+        $validasi_produk = Validator::make($request->all(), [
+            'kategori_id' => 'required',
+            'subkategori_id' => 'required',
+            'warna' => 'required',
+        ], [
+            'kategori_id.required' => 'Kategori harus dipilih!',
+            'subkategori_id.required' => 'Sub Kategori harus dipilih!',
+            'warna.required' => 'Warna harus dipilih!',
+        ]);
+
+        $error_produks = array();
+
+        if ($validasi_produk->fails()) {
+            foreach ($validasi_produk->errors()->all() as $error) {
+                array_push($error_produks, $error);
+            }
+        }
+
+        $error_details = array();
+        $data_produks = collect();
+
+        $sub_kategori = SubKategori::where('id', $request->subkategori_id)->first();
+
+        if ($sub_kategori) {
+            for ($i = 0; $i < count($request->ukuran); $i++) {
+                if ($sub_kategori->jenis) {
+                    $validasi_detail = Validator::make($request->all(), [
+                        'tingkat.' . $i => 'required',
+                        'ukuran.' . $i => 'required',
+                        'jumlah.' . $i => 'required',
+                        'harga.' . $i => 'required',
+                    ]);
+                } else {
+                    $validasi_detail = Validator::make($request->all(), [
+                        'ukuran.' . $i => 'required',
+                        'jumlah.' . $i => 'required',
+                        'harga.' . $i => 'required',
+                    ]);
+                }
+
+                if ($validasi_detail->fails()) {
+                    array_push($error_details, "Detail produk nomor " . $i + 1 . " belum dilengkapi!");
+                }
+
+                $tingkat = is_null($request->tingkat[$i]) ? '' : $request->tingkat[$i];
+                $ukuran = is_null($request->ukuran[$i]) ? '' : $request->ukuran[$i];
+                $jumlah = is_null($request->jumlah[$i]) ? '' : $request->jumlah[$i];
+                $harga = is_null($request->harga[$i]) ? '' : $request->harga[$i];
+
+                $data_produks->push(['tingkat' => $tingkat, 'ukuran' => $ukuran, 'jumlah' => $jumlah, 'harga' => $harga]);
+            }
+        }
+
+        if ($error_produks || $error_details) {
+            return back()
+                ->withInput()
+                ->with('error_produks', $error_produks)
+                ->with('error_details', $error_details)
+                ->with('data_produks', $data_produks);
+        }
+
+        $kode = $produk->kode;
+        $gambar = $produk->gambar;
+
+        $update = Produk::where('id', $id)->update([
+            'subkategori_id' => $request->subkategori_id,
+            'warna' => json_encode($request->warna),
+        ]);
+
+        if ($update) {
+            if ($request->has('gambar')) {
+                foreach ($request->file('gambar') as $key => $g) {
+                    $nama = $this->namagambar($g, $kode);
+                    $g->storeAs('public/uploads', $nama);
+                    $gambar[] = $nama;
+                }
+            }
+
+            Produk::where('id', $id)->update([
+                'gambar' => json_encode($gambar)
+            ]);
+
+            DetailProduk::where('produk_id', $produk->id)->delete();
+
+            foreach ($data_produks as $data_produk) {
+                $harga = str_replace('.', '', $data_produk['harga']);
+                DetailProduk::create([
+                    'produk_id' => $produk->id,
+                    'tingkat' => $data_produk['tingkat'],
+                    'ukuran' => $data_produk['ukuran'],
+                    'jumlah' => $data_produk['jumlah'],
+                    'harga' => $harga,
+                ]);
+            }
+        }
+
+        return redirect('admin/produk')->with('success', 'Berhasil menambahkan Produk');
+    }
+
+    public function destroy($id)
+    {
+        $produk = Produk::where('id', $id)->first();
+        $produk->delete();
+
+        return back()->with('success', 'Berhasil menghapus Produk');
+    }
+
     public function kode()
     {
         $karakter = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789';
@@ -159,12 +272,12 @@ class ProdukController extends Controller
         return $kode;
     }
 
-    public function namagambar($data, $kode, $key)
+    public function namagambar($data, $kode)
     {
         $ext = $data->getClientOriginalExtension();
         $convert = substr(strstr($kode, "#"), 1);
-        $urutan = $key + 1;
-        $nama = 'produk/' . $convert . '(' . $urutan . ').' . $ext;
+        $rand = rand(10, 100);
+        $nama = 'produk/' . $convert . '(' . $rand . ').' . $ext;
 
         return $nama;
     }
@@ -191,5 +304,19 @@ class ProdukController extends Controller
         $sub_kategori = SubKategori::where('id', $id)->first();
 
         return json_decode($sub_kategori);
+    }
+
+    public function delete_gambar($id, $i)
+    {
+        $produk = Produk::where('id', $id)->first();
+        $gambar = $produk->gambar;
+
+        unset($gambar[$i]);
+
+        Produk::where('id', $id)->update([
+            'gambar' => $gambar
+        ]);
+
+        return $gambar;
     }
 }

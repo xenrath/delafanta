@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Kategori;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class KategoriController extends Controller
 {
@@ -34,7 +35,9 @@ class KategoriController extends Controller
             return back()->withInput()->with('error', $error);
         }
 
-        Kategori::create($request->all());
+        Kategori::create(array_merge($request->all(), [
+            'slug' => Str::slug($request->nama)
+        ]));
 
         return redirect('admin/kategori')->with('success', 'Berhasil menambahkan Kategori');
     }
@@ -68,7 +71,8 @@ class KategoriController extends Controller
         }
 
         Kategori::where('id', $id)->update([
-            'nama' => $request->nama
+            'nama' => $request->nama,
+            'slug' => Str::slug($request->nama)
         ]);
 
         return redirect('admin/kategori')->with('success', 'Berhasil mengubah Kategori');
@@ -76,7 +80,7 @@ class KategoriController extends Controller
 
     public function destroy($id)
     {
-        $kategori = Kategori::where('id', $id)->first();        
+        $kategori = Kategori::where('id', $id)->first();
         $kategori->delete();
 
         return redirect('admin/kategori')->with('success', 'Berhasil menghapus Kategori');

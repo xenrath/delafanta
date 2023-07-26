@@ -62,17 +62,23 @@
                     <td>{{ $produk->kode }}</td>
                     <td>{{ $produk->subkategori->nama }}</td>
                     <td>
-                      @foreach (json_decode($produk->warna) as $key => $warna)
+                      @foreach ($produk->warna as $key => $warna)
                         @php
                           $warna = App\Models\Warna::where('id', $warna)->first();
-                          $comma = $key + 1 != count(json_decode($produk->warna)) ? ',' : '';
+                          $comma = $key + 1 != count($produk->warna) ? ',' : '';
                         @endphp
                         {{ $warna->nama . $comma }}
                       @endforeach
                     </td>
                     <td>
-                      <img src="{{ asset('storage/uploads/' . array_values(json_decode($produk->gambar))[0]) }}"
-                        alt="{{ $produk->kode }}" class="w-100 rounded">
+                      @if (count($produk->gambar) > 0)
+                        <img src="{{ asset('storage/uploads/' . $produk->gambar[0]) }}" alt="{{ $produk->kode }}"
+                          class="w-100 rounded">
+                      @else
+                        <p>
+                          <code>tidak ada gambar</code>
+                        </p>
+                      @endif
                     </td>
                     <td class="text-center">
                       <a href="{{ url('admin/produk/' . $produk->id) }}" class="btn btn-info">

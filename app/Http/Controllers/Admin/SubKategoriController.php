@@ -7,6 +7,7 @@ use App\Models\Kategori;
 use App\Models\SubKategori;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class SubKategoriController extends Controller
 {
@@ -41,7 +42,9 @@ class SubKategoriController extends Controller
             return back()->withInput()->with('error', $error);
         }
 
-        SubKategori::create($request->all());
+        SubKategori::create(array_merge($request->all(), [
+            'slug' => Str::slug($request->nama)
+        ]));
 
         return redirect('admin/sub-kategori')->with('success', 'Berhasil menambahkan Sub Kategori');
     }
@@ -72,7 +75,8 @@ class SubKategoriController extends Controller
 
         SubKategori::where('id', $id)->update([
             'kategori_id' => $request->kategori_id,
-            'nama' => $request->nama
+            'nama' => $request->nama,
+            'slug' => Str::slug($request->nama)
         ]);
 
         return redirect('admin/sub-kategori')->with('success', 'Berhasil mengubah Sub Kategori');

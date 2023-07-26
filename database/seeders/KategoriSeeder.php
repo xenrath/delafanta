@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Kategori;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class KategoriSeeder extends Seeder
 {
@@ -29,6 +30,12 @@ class KategoriSeeder extends Seeder
             ],
         ];
 
-        Kategori::insert($kategoris);
+        foreach ($kategoris as $kategori) {
+            Kategori::create([
+                'nama' => $kategori['nama'],
+                'slug' => Str::slug($kategori['nama'])
+            ]);
+        }
+
     }
 }

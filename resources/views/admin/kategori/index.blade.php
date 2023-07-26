@@ -47,9 +47,10 @@
           <table id="example1" class="table table-bordered table-striped">
             <thead>
               <tr>
-                <th class="text-center">No</th>
+                <th class="text-center" style="width: 20px">No</th>
                 <th>Nama</th>
-                <th class="text-center">Opsi</th>
+                <th>Slug</th>
+                <th class="text-center" style="width: 80px">Opsi</th>
               </tr>
             </thead>
             <tbody>
@@ -57,6 +58,7 @@
               <tr>
                 <td class="text-center">{{ $loop->iteration }}</td>
                 <td>{{ $kategori->nama }}</td>
+                <td>{{ $kategori->slug }}</td>
                 <td class="text-center">
                   <a href="{{ url('admin/kategori/' . $kategori->id . '/edit') }}" class="btn btn-warning">
                     <i class="fas fa-pencil-alt"></i>

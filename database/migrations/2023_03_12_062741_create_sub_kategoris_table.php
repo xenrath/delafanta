@@ -18,6 +18,7 @@ class CreateSubKategorisTable extends Migration
             $table->foreignId('kategori_id')->constrained('kategoris')->onDelete('cascade')->onUpdate('cascade');
             $table->string('nama');
             $table->boolean('jenis');
+            $table->string('slug')->unique();
             $table->timestamps();
         });
     }

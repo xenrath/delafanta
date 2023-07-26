@@ -1,32 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>@yield('title')</title>
 
   <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="{{  asset('adminlte/plugins/fontawesome-free/css/all.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('adminlte/plugins/fontawesome-free/css/all.min.css') }}">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Tempusdominus Bootstrap 4 -->
   <link rel="stylesheet"
-    href="{{  asset('adminlte/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
+    href="{{ asset('adminlte/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
   <!-- iCheck -->
-  <link rel="stylesheet" href="{{  asset('adminlte/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('adminlte/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
   <!-- JQVMap -->
-  <link rel="stylesheet" href="{{  asset('adminlte/plugins/jqvmap/jqvmap.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('adminlte/plugins/jqvmap/jqvmap.min.css') }}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('adminlte/dist/css/adminlte.min.css') }}">
   <!-- overlayScrollbars -->
-  <link rel="stylesheet" href="{{  asset('adminlte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('adminlte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
   <!-- Daterange picker -->
-  <link rel="stylesheet" href="{{  asset('adminlte/plugins/daterangepicker/daterangepicker.css') }}">
+  <link rel="stylesheet" href="{{ asset('adminlte/plugins/daterangepicker/daterangepicker.css') }}">
   <!-- summernote -->
-  <link rel="stylesheet" href="{{  asset('adminlte/plugins/summernote/summernote-bs4.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('adminlte/plugins/summernote/summernote-bs4.min.css') }}">
 
   <!-- DataTables -->
   <link rel="stylesheet" href="{{ asset('adminlte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
@@ -41,12 +41,15 @@
   <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
     crossorigin="anonymous"></script>
 </head>
-<body class="hold-transition sidebar-mini sidebar-collapse">
+
+<body
+  class="hold-transition sidebar-mini {{ request()->is('admin/pesanan/create') || request()->is('admin/produk/create') ? 'sidebar-collapse' : '' }}">
   <div class="wrapper">
 
     <!-- Preloader -->
     <div class="preloader flex-column justify-content-center align-items-center">
-      <img class="animation__shake" src="{{ asset('storage/uploads/logo.png') }}" alt="Delafan" height="80" width="80">
+      <img class="animation__shake" src="{{ asset('storage/uploads/logo.png') }}" alt="Delafan" height="80"
+        width="80">
     </div>
 
     <!-- Navbar -->
@@ -74,7 +77,8 @@
       <div class="sidebar">
         <!-- Sidebar Menu -->
         <nav class="mt-2">
-          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+            data-accordion="false">
             <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
             <li class="nav-item">
@@ -87,7 +91,8 @@
             </li>
             <li class="nav-header">Menu</li>
             <li class="nav-item">
-              <a href="{{ url('admin/pesanan') }}" class="nav-link {{ request()->is('admin/pesanan*') ? 'active' : '' }}">
+              <a href="{{ url('admin/pesanan') }}"
+                class="nav-link {{ request()->is('admin/pesanan*') ? 'active' : '' }}">
                 <i class="nav-icon fas fa-users"></i>
                 <p>
                   Buat Pesanan
@@ -95,7 +100,8 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="{{ url('admin/produk') }}" class="nav-link {{ request()->is('admin/produk*') ? 'active' : '' }}">
+              <a href="{{ url('admin/produk') }}"
+                class="nav-link {{ request()->is('admin/produk*') ? 'active' : '' }}">
                 <i class="nav-icon fas fa-users"></i>
                 <p>
                   Data Produk
@@ -131,7 +137,8 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="{{ url('admin/ukuran') }}" class="nav-link {{ request()->is('admin/ukuran*') ? 'active' : '' }}">
+              <a href="{{ url('admin/ukuran') }}"
+                class="nav-link {{ request()->is('admin/ukuran*') ? 'active' : '' }}">
                 <i class="nav-icon fas fa-sort-amount-down"></i>
                 <p>
                   Data Ukuran
@@ -147,7 +154,8 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="{{ url('admin/kontak') }}" class="nav-link {{ request()->is('admin/kontak*') ? 'active' : '' }}">
+              <a href="{{ url('admin/kontak') }}"
+                class="nav-link {{ request()->is('admin/kontak*') ? 'active' : '' }}">
                 <i class="nav-icon fas fa-sort-amount-down"></i>
                 <p>
                   Data Kontak
@@ -197,9 +205,13 @@
     </div>
 
     <footer class="main-footer">
-      <strong>Copyright © 2021. All right reserved. <a href="https://pse.kominfo.go.id/tdpse-detail/3010">EHR
-          System
-          Terdaftar Di Kominfo.</a>.</strong>
+      <strong>©
+        <a href="{{ url('/') }}">Dellafan Putri Avon</a>.
+      </strong>
+      All Right Reserved. Designed by
+      <a href="">
+        <strong>Xenrath</strong>
+      </a>
       <div class="float-right d-none d-sm-inline-block">
         <b>No. 001922.01/DJAI.PSE/01/2022</b>
       </div>
@@ -236,8 +248,7 @@
   <script src="{{ asset('adminlte/plugins/moment/moment.min.js') }}"></script>
   <script src="{{ asset('adminlte/plugins/daterangepicker/daterangepicker.js') }}"></script>
   <!-- Tempusdominus Bootstrap 4 -->
-  <script src="{{ asset('adminlte/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap') }}-4.min.js">
-  </script>
+  <script src="{{ asset('adminlte/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap') }}-4.min.js"></script>
   <!-- Summernote -->
   <script src="{{ asset('adminlte/plugins/summernote/summernote-bs4.min.js') }}"></script>
   <!-- overlayScrollbars -->
@@ -268,10 +279,12 @@
   <script src="{{ asset('adminlte/plugins/select2/js/select2.full.min.js') }}"></script>
 
   <script>
-    $(function () {
+    $(function() {
       $("#example1").DataTable({
-        "responsive": true, "lengthChange": false, "autoWidth": false
-      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');      
+        "responsive": true,
+        "lengthChange": false,
+        "autoWidth": false
+      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
       bsCustomFileInput.init();
       $('.select2').select2()
       $('.select2bs4').select2({
@@ -280,4 +293,5 @@
     });
   </script>
 </body>
+
 </html>

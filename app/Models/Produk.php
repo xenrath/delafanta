@@ -17,6 +17,7 @@ class Produk extends Model
     ];
 
     protected $casts = [
+        'warna' => 'array',
         'gambar' => 'array'
     ];
 

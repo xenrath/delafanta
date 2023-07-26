@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\SubKategori;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class SubKategoriSeeder extends Seeder
 {
@@ -67,6 +68,14 @@ class SubKategoriSeeder extends Seeder
             ],
         ];
 
-        SubKategori::insert($sub_kategoris);       
+        foreach ($sub_kategoris as $sub_kategori) {
+            SubKategori::create([
+                'kategori_id' => $sub_kategori['kategori_id'],
+                'nama' => $sub_kategori['nama'],
+                'jenis' => $sub_kategori['jenis'],
+                'slug' => Str::slug($sub_kategori['nama'])
+            ]);
+        }
+
     }
 }

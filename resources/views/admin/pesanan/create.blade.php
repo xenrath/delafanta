@@ -105,12 +105,12 @@
                   </td>
                   <td>
                     <div class="form-group">
-                      <input type="number" class="form-control" id="harga-0" name="harga[]" onkeyup="getTotal(0)">
+                      <input type="text" class="form-control" id="harga-0" name="harga[]" onkeypress="return event.charCode >= 48 && event.charCode <= 57" onkeyup="getTotal(0)">
                     </div>
                   </td>
                   <td>
                     <div class="form-group">
-                      <input type="number" class="form-control" id="jumlah-0" name="jumlah[]" onkeyup="getTotal(0)">
+                      <input type="text" class="form-control" id="jumlah-0" name="jumlah[]" onkeypress="return event.charCode >= 48 && event.charCode <= 57" onkeyup="getTotal(0)">
                     </div>
                   </td>
                   <td>
@@ -142,10 +142,16 @@
       var total = document.getElementById('total-' + id);
 
       if (harga.value != "" && jumlah.value != "") {
-        total.value = harga.value * jumlah.value;
+        var h = harga.value.split('.').join('');
+        var j = jumlah.value.split('.').join('');
+        total.value =  h * j;
       } else {
         total.value = "";
       }
+
+      setRupiah(harga);
+      setRupiah(jumlah);
+      setRupiah(total);
     }
 
     var data_pesanan = @json(session('data_pesanans'));
@@ -217,14 +223,14 @@
       item_pesanan += '</td>';
       item_pesanan += '<td>';
       item_pesanan += '<div class="form-group">';
-      item_pesanan += '<input type="number" class="form-control" id="harga-' + key + '" name="harga[]" value="' + harga +
-        '" onkeyup="getTotal(' + key + ')">';
+      item_pesanan += '<input type="text" class="form-control" id="harga-' + key + '" name="harga[]" value="' + harga +
+        '" onkeypress="return event.charCode >= 48 && event.charCode <= 57" onkeyup="getTotal(' + key + ')">';
       item_pesanan += '</div>';
       item_pesanan += '</td>';
       item_pesanan += '<td>';
       item_pesanan += '<div class="form-group">';
-      item_pesanan += '<input type="number" class="form-control" id="jumlah-' + key + '" name="jumlah[]" value="' +
-        jumlah + '" onkeyup="getTotal(' + key + ')">';
+      item_pesanan += '<input type="text" class="form-control" id="jumlah-' + key + '" name="jumlah[]" value="' +
+        jumlah + '" onkeypress="return event.charCode >= 48 && event.charCode <= 57" onkeyup="getTotal(' + key + ')">';
       item_pesanan += '</div>';
       item_pesanan += '</td>'
       item_pesanan += '<td>';
@@ -241,6 +247,22 @@
       item_pesanan += '</tr>';
 
       $('#tabel-pesanan').append(item_pesanan);
+    }
+
+    function setRupiah(params) {
+      var number_string = params.value.replace(/[^,\d]/g, '').toString(),
+        split = number_string.split(','),
+        sisa = split[0].length % 3,
+        rupiah = split[0].substr(0, sisa),
+        ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+      if (ribuan) {
+        separator = sisa ? '.' : '';
+        rupiah += separator + ribuan.join('.');
+      }
+
+      rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+      params.value = rupiah;
     }
   </script>
 @endsection

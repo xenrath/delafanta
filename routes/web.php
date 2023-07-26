@@ -39,6 +39,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('produk/sub-kategori/{id}', [ProdukController::class, 'sub_kategori']);
     Route::get('produk/jenis-ukuran/{id}', [ProdukController::class, 'jenis_ukuran']);
     Route::post('produk/unduh/{id}', [ProdukController::class, 'unduh']);
+    Route::get('produk/delete-gambar/{id}/{i}', [ProdukController::class, 'delete_gambar']);
     Route::resource('produk', ProdukController::class);
 
     Route::resource('kategori', KategoriController::class);

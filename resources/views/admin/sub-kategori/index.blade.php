@@ -47,11 +47,12 @@
             <table id="example1" class="table table-bordered table-striped">
               <thead>
                 <tr>
-                  <th class="text-center">No</th>
+                  <th class="text-center" style="width: 20px">No</th>
                   <th>Kategori</th>
                   <th>Nama</th>
                   <th>Jenis Ukuran</th>
-                  <th class="text-center">Opsi</th>
+                  <th>Slug</th>
+                  <th class="text-center" style="width: 80px">Opsi</th>
                 </tr>
               </thead>
               <tbody>
@@ -67,6 +68,7 @@
                         Tidak berdasarkan tingkat
                       @endif
                     </td>
+                    <td>{{ $sub_kategori->slug }}</td>
                     <td class="text-center">
                       <a href="{{ url('admin/sub-kategori/' . $sub_kategori->id . '/edit') }}" class="btn btn-warning">
                         <i class="fas fa-pencil-alt"></i>

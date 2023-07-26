@@ -47,9 +47,9 @@
           <table id="example1" class="table table-bordered table-striped">
             <thead>
               <tr>
-                <th class="text-center">No</th>
+                <th class="text-center" style="width: 20px">No</th>
                 <th>Nama</th>
-                <th class="text-center">Opsi</th>
+                <th class="text-center" style="width: 80px">Opsi</th>
               </tr>
             </thead>
             <tbody>

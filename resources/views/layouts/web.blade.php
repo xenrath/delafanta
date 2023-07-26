@@ -87,28 +87,24 @@
           id="navbar-vertical"
           style="{{ request()->is('produk') || request()->is('kontak') ? 'width: calc(100% - 30px); z-index: 1;' : '' }}">
           <div class="navbar-nav w-100 overflow-hidden" style="height: 410px">
-            <div class="nav-item dropdown">
-              <a href="#" class="nav-link" data-toggle="dropdown">
-                Mayoret <i class="fa fa-angle-down float-right mt-1"></i>
-              </a>
-              <div class="dropdown-menu position-absolute bg-secondary border-0 rounded-0 w-100 m-0">
-                <a href="" class="dropdown-item">Seragam Mayoret</a>
-                <a href="" class="dropdown-item">Topi Mayoret</a>
-                <a href="" class="dropdown-item">Sepatu Mayoret</a>
+            @foreach ($kategoris as $kategori)
+              @php
+                $sub_kategoris = \App\Models\SubKategori::where('kategori_id', $kategori->id)->get();
+              @endphp
+              <div class="nav-item dropdown">
+                <a href="#" class="nav-link" data-toggle="dropdown">
+                  {{ ucfirst($kategori->nama) }}
+                  <i class="fa fa-angle-down float-right mt-1"></i>
+                </a>
+                @if (count($sub_kategoris) > 0)
+                  <div class="dropdown-menu position-absolute bg-secondary border-0 rounded-0 w-100 m-0">
+                    @foreach ($sub_kategoris as $sub_kategori)
+                      <a href="" class="dropdown-item">{{ $sub_kategori->nama }}</a>
+                    @endforeach
+                  </div>
+                @endif
               </div>
-            </div>
-            <div class="nav-item dropdown">
-              <a href="#" class="nav-link" data-toggle="dropdown">
-                Drumband <i class="fa fa-angle-down float-right mt-1"></i>
-              </a>
-              <div class="dropdown-menu position-absolute bg-secondary border-0 rounded-0 w-100 m-0">
-                <a href="" class="dropdown-item">Seragam Drumband</a>
-                <a href="" class="dropdown-item">Topi Drumband</a>
-                <a href="" class="dropdown-item">Sepatu Drumband</a>
-              </div>
-            </div>
-            <a href="" class="nav-item nav-link">Aksesoris</a>
-            <a href="" class="nav-item nav-link">Lainnya</a>
+            @endforeach
           </div>
         </nav>
       </div>
@@ -133,42 +129,42 @@
           </div>
         </nav>
         @if (request()->is('/'))
-        <div id="header-carousel" class="carousel slide" data-ride="carousel">
-          <div class="carousel-inner">
-            <div class="carousel-item active" style="height: 410px;">
-              <img class="img-fluid" src="{{ asset('eshopper/img/carousel-1.jpeg') }}" alt="Image">
-              <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                <div class="p-3" style="max-width: 700px;">
-                  <h4 class="text-light text-uppercase font-weight-medium mb-3">10% Off Your First
-                    Order</h4>
-                  <h3 class="display-4 text-white font-weight-semi-bold mb-4">Fashionable Dress</h3>
-                  <a href="" class="btn btn-light py-2 px-3">Beli Sekarang</a>
+          <div id="header-carousel" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active" style="height: 410px;">
+                <img class="img-fluid" src="{{ asset('eshopper/img/carousel-1.jpeg') }}" alt="Image">
+                <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                  <div class="p-3" style="max-width: 700px;">
+                    <h4 class="text-light text-uppercase font-weight-medium mb-3">10% Off Your First
+                      Order</h4>
+                    <h3 class="display-4 text-white font-weight-semi-bold mb-4">Fashionable Dress</h3>
+                    <a href="" class="btn btn-light py-2 px-3">Beli Sekarang</a>
+                  </div>
+                </div>
+              </div>
+              <div class="carousel-item" style="height: 410px;">
+                <img class="img-fluid" src="{{ asset('eshopper/img/carousel-3.jpg') }}" alt="Image">
+                <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                  <div class="p-3" style="max-width: 700px;">
+                    <h4 class="text-light text-uppercase font-weight-medium mb-3">10% Off Your First
+                      Order</h4>
+                    <h3 class="display-4 text-white font-weight-semi-bold mb-4">Reasonable Price</h3>
+                    <a href="" class="btn btn-light py-2 px-3">Beli Sekarang</a>
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="carousel-item" style="height: 410px;">
-              <img class="img-fluid" src="{{ asset('eshopper/img/carousel-3.jpg') }}" alt="Image">
-              <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                <div class="p-3" style="max-width: 700px;">
-                  <h4 class="text-light text-uppercase font-weight-medium mb-3">10% Off Your First
-                    Order</h4>
-                  <h3 class="display-4 text-white font-weight-semi-bold mb-4">Reasonable Price</h3>
-                  <a href="" class="btn btn-light py-2 px-3">Beli Sekarang</a>
-                </div>
+            <a class="carousel-control-prev" href="#header-carousel" data-slide="prev">
+              <div class="btn btn-dark" style="width: 45px; height: 45px;">
+                <span class="carousel-control-prev-icon mb-n2"></span>
               </div>
-            </div>
+            </a>
+            <a class="carousel-control-next" href="#header-carousel" data-slide="next">
+              <div class="btn btn-dark" style="width: 45px; height: 45px;">
+                <span class="carousel-control-next-icon mb-n2"></span>
+              </div>
+            </a>
           </div>
-          <a class="carousel-control-prev" href="#header-carousel" data-slide="prev">
-            <div class="btn btn-dark" style="width: 45px; height: 45px;">
-              <span class="carousel-control-prev-icon mb-n2"></span>
-            </div>
-          </a>
-          <a class="carousel-control-next" href="#header-carousel" data-slide="next">
-            <div class="btn btn-dark" style="width: 45px; height: 45px;">
-              <span class="carousel-control-next-icon mb-n2"></span>
-            </div>
-          </a>
-        </div>
         @endif
       </div>
     </div>
@@ -181,7 +177,8 @@
   <div class="container-fluid bg-secondary text-dark mt-5">
     <div class="border-top border-light mx-xl-5 py-4">
       <p class="mb-md-0 text-center text-md-left text-dark">
-        &copy; <a class="text-dark font-weight-semi-bold" href="#">Delafan Putri Avon</a>. All Rights Reserved. Designed
+        &copy; <a class="text-dark font-weight-semi-bold" href="#">Delafan Putri Avon</a>. All Rights Reserved.
+        Designed
         by
         <a class="text-dark font-weight-semi-bold" href="#">Xenrath</a>
       </p>
