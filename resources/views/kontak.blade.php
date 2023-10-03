@@ -7,7 +7,7 @@
     <h1 class="font-weight-semi-bold text-uppercase mb-3">Kontak</h1>
     <div class="d-inline-flex">
       <p class="m-0">
-        <a href="{{ url('home') }}">Home</a>
+        <a href="{{ url('/') }}">Home</a>
       </p>
       <p class="m-0 px-2">-</p>
       <p class="m-0">Kontak</p>

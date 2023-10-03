@@ -32,6 +32,11 @@ class SubKategoriSeeder extends Seeder
                 'jenis' => false
             ],
             [
+                'kategori_id' => '1',
+                'nama' => 'Fullset Mayoret',
+                'jenis' => false
+            ],
+            [
                 'kategori_id' => '2',
                 'nama' => 'Seragam Drumband',
                 'jenis' => true

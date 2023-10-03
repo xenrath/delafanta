@@ -25,9 +25,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [WebController::class, 'index']);
-Route::get('produk', [WebController::class, 'produk']);
+Route::get('produk/{slug?}/{filter?}', [WebController::class, 'produk']);
 Route::get('kontak', [WebController::class, 'kontak']);
 Route::get('hubungi', [WebController::class, 'hubungi']);
+Route::get('unduh/{kode}', [WebController::class, 'unduh']);
 
 Auth::routes();
 

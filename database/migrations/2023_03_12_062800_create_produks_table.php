@@ -17,8 +17,7 @@ class CreateProduksTable extends Migration
             $table->id();
             $table->string('kode')->unique();
             $table->foreignId('subkategori_id')->constrained('sub_kategoris')->onDelete('cascade')->onUpdate('cascade');
-            $table->json('warna');
-            $table->json('gambar');
+            $table->string('gambar');
             $table->timestamps();
         });
     }

@@ -176,6 +176,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         Jenssegers\Agent\AgentServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
     ],
 
     /*

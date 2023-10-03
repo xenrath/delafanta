@@ -13,4 +13,8 @@ class Kategori extends Model
         'nama',
     ];
 
+
+    public function sub_kategoris() {
+        return $this->hasMany(SubKategori::class, 'kategori_id', 'id');
+    }
 }

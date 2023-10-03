@@ -12,27 +12,11 @@ class Produk extends Model
     protected $fillable = [
         'kode',
         'subkategori_id',
-        'warna',
         'gambar',
-    ];
-
-    protected $casts = [
-        'warna' => 'array',
-        'gambar' => 'array'
     ];
 
     public function subkategori()
     {
         return $this->belongsTo(SubKategori::class);
-    }
-
-    public function warna()
-    {
-        return $this->belongsTo(Warna::class);
-    }
-
-    public function detail_produks()
-    {
-        return $this->hasMany(DetailProduk::class);
     }
 }

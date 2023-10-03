@@ -68,7 +68,7 @@
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
-      <a href="" class="brand-link">
+      <a href="{{ url('/') }}" class="brand-link">
         <img src="{{ asset('storage/uploads/logo.png') }}" alt="AdminDelafan" class="brand-image">
         <span class="brand-text font-wight-bold">AdminDelafan</span>
       </a>

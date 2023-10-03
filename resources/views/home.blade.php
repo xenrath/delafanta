@@ -106,23 +106,19 @@
         <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
           <div class="card product-item border-0 mb-4">
             <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-              @if (count($produk->gambar) > 0)
-                <img class="img-fluid w-100" src="{{ asset('storage/uploads/' . $produk->gambar[0]) }}" alt="">
-              @else
-                <img class="img-fluid w-100" src="{{ asset('storage/uploads/image-placeholder.jpg') }}" alt="">
-              @endif
+              <img class="img-fluid w-100" src="{{ asset('storage/uploads/' . $produk->gambar) }}" alt="">
             </div>
             <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-              <h6 class="text-truncate mb-3">{{ $produk->subkategori->nama }}</h6>
+              <h6 class="text-truncate mb-3">{{ $produk->subkategori_nama }}</h6>
               <div class="d-flex justify-content-center">
-                <h6>@rupiah($produk->detail_produks->first()->harga)</h6>
+                <h6 class="text-muted">{{ $produk->kode }}</h6>
               </div>
             </div>
-            {{-- <div class="card-footer text-center bg-light border">
-              <a href="" class="btn btn-sm text-dark p-0">
-                <i class="fas fa-eye text-primary mr-1"></i>Lihat Detail
+            <div class="card-footer text-center bg-light border">
+              <a href="{{ url('unduh/' . $produk->kode) }}" class="btn btn-sm text-dark p-0">
+                <i class="fas fa-download text-primary mr-1"></i>Unduh Gambar
               </a>
-            </div> --}}
+            </div>
           </div>
         </div>
       @empty

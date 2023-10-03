@@ -57,18 +57,6 @@
           </h1>
         </a>
       </div>
-      <div class="col-lg-6 col-6 text-left">
-        <form action="">
-          <div class="input-group">
-            <input type="text" class="form-control" placeholder="Cari produk">
-            <div class="input-group-append">
-              <span class="input-group-text bg-transparent text-primary">
-                <i class="fa fa-search"></i>
-              </span>
-            </div>
-          </div>
-        </form>
-      </div>
     </div>
   </div>
   <!-- Topbar End -->
@@ -83,23 +71,20 @@
           <i class="fa fa-angle-down text-dark"></i>
         </a>
         <nav
-          class="collapse {{ request()->is('/') ? 'show' : 'position-absolute' }} navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0"
+          class="collapse {{ request()->is('/') ? 'show' : 'position-absolute bg-light' }} navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0"
           id="navbar-vertical"
-          style="{{ request()->is('produk') || request()->is('kontak') ? 'width: calc(100% - 30px); z-index: 1;' : '' }}">
-          <div class="navbar-nav w-100 overflow-hidden" style="height: 410px">
+          style="{{ request()->is('produk*') || request()->is('kontak') ? 'width: calc(100% - 30px); z-index: 1;' : '' }}">
+          <div class="navbar-nav w-100 overflow-hidden" style="height: 240px">
             @foreach ($kategoris as $kategori)
-              @php
-                $sub_kategoris = \App\Models\SubKategori::where('kategori_id', $kategori->id)->get();
-              @endphp
               <div class="nav-item dropdown">
                 <a href="#" class="nav-link" data-toggle="dropdown">
                   {{ ucfirst($kategori->nama) }}
                   <i class="fa fa-angle-down float-right mt-1"></i>
                 </a>
-                @if (count($sub_kategoris) > 0)
+                @if (count($kategori->sub_kategoris) > 0)
                   <div class="dropdown-menu position-absolute bg-secondary border-0 rounded-0 w-100 m-0">
-                    @foreach ($sub_kategoris as $sub_kategori)
-                      <a href="" class="dropdown-item">{{ $sub_kategori->nama }}</a>
+                    @foreach ($kategori->sub_kategoris as $subkategori)
+                      <a href="{{ url('produk/' . $subkategori->slug) }}" class="dropdown-item">{{ $subkategori->nama }}</a>
                     @endforeach
                   </div>
                 @endif
@@ -122,7 +107,7 @@
             <div class="navbar-nav mr-auto py-0">
               <a href="{{ url('/') }}" class="nav-item nav-link {{ request()->is('/') ? 'active' : '' }}">Home</a>
               <a href="{{ url('produk') }}"
-                class="nav-item nav-link {{ request()->is('produk') ? 'active' : '' }}">Produk</a>
+                class="nav-item nav-link {{ request()->is('produk*') ? 'active' : '' }}">Produk</a>
               <a href="{{ url('kontak') }}"
                 class="nav-item nav-link {{ request()->is('kontak') ? 'active' : '' }}">Kontak</a>
             </div>

@@ -47,12 +47,11 @@
             <table id="example1" class="table table-bordered table-striped">
               <thead>
                 <tr>
-                  <th class="text-center" style="width: 24px">No</th>
-                  <th>Kode Produk</th>
+                  <th class="text-center" style="width: 20px">No</th>
+                  <th width="40px">Kode</th>
                   <th>Kategori</th>
-                  <th>Warna</th>
-                  <th width="160px">Gambar</th>
-                  <th class="text-center" style="width: 120px">Opsi</th>
+                  <th width="120px">Gambar</th>
+                  <th class="text-center" style="width: 80px">Opsi</th>
                 </tr>
               </thead>
               <tbody>
@@ -62,28 +61,13 @@
                     <td>{{ $produk->kode }}</td>
                     <td>{{ $produk->subkategori->nama }}</td>
                     <td>
-                      @foreach ($produk->warna as $key => $warna)
-                        @php
-                          $warna = App\Models\Warna::where('id', $warna)->first();
-                          $comma = $key + 1 != count($produk->warna) ? ',' : '';
-                        @endphp
-                        {{ $warna->nama . $comma }}
-                      @endforeach
-                    </td>
-                    <td>
-                      @if (count($produk->gambar) > 0)
-                        <img src="{{ asset('storage/uploads/' . $produk->gambar[0]) }}" alt="{{ $produk->kode }}"
-                          class="w-100 rounded">
-                      @else
-                        <p>
-                          <code>tidak ada gambar</code>
-                        </p>
-                      @endif
+                      <a type="button" data-toggle="modal"
+                      data-target="#modal-unduh-{{ $produk->id }}">
+                        <img src="{{ asset('storage/uploads/' . $produk->gambar) }}" alt="{{ $produk->kode }}"
+                        class="w-100 rounded">
+                      </a>
                     </td>
                     <td class="text-center">
-                      <a href="{{ url('admin/produk/' . $produk->id) }}" class="btn btn-info">
-                        <i class="fas fa-eye"></i>
-                      </a>
                       <a href="{{ url('admin/produk/' . $produk->id . '/edit') }}" class="btn btn-warning">
                         <i class="fas fa-pencil-alt"></i>
                       </a>
@@ -112,6 +96,26 @@
                             @method('delete')
                             <button type="submit" class="btn btn-danger">Hapus</button>
                           </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal fade" id="modal-unduh-{{ $produk->id }}">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h4 class="modal-title">Unduh Gambar</h4>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <img src="{{ asset('storage/uploads/' . $produk->gambar) }}" alt="{{ $produk->kode }}"
+                            class="w-100 rounded">
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+                          <a href="{{ url('admin/produk/unduh/' . $produk->id) }}" class="btn btn-secondary">Unduh</a>
                         </div>
                       </div>
                     </div>

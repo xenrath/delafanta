@@ -19,7 +19,6 @@ class DatabaseSeeder extends Seeder
             KategoriSeeder::class,
             SubKategoriSeeder::class,
             WarnaSeeder::class,
-            TingkatSeeder::class,
             UkuranSeeder::class
         ]);
     }
