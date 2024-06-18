@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Kategori;
 use App\Models\Produk;
-use App\Models\Unduhans;
+use App\Models\Unduhan;
 use Illuminate\Http\Request;
 use Jenssegers\Agent\Agent;
 
@@ -51,22 +51,23 @@ class WebController extends Controller
         $device = new Agent();
 
         if ($device->isMobile()) {
-            return redirect()->away('https://wa.me/+6285328481969');
+            return redirect()->away('https://wa.me/+6282137314711');
         } else {
-            return redirect()->away('https://web.whatsapp.com/send?phone=+6285328481969');
+            return redirect()->away('https://web.whatsapp.com/send?phone=+6282137314711');
         }
     }
 
     public function unduh($kode)
     {
         $produk = Produk::where('kode', $kode)->first();
-        $unduhan = Unduhans::where('produk_id', $produk->id)->first();
+        $unduhan = Unduhan::where('produk_id', $produk->id)->first();
+        $jumlah = $unduhan->jumlah + 1;
         if ($unduhan) {
-            Unduhans::where('produk_id', $produk->id)->update([
-                'jumlah' => $unduhan->jumlah + 1
+            Unduhan::where('produk_id', $produk->id)->update([
+                'jumlah' => $jumlah
             ]);
         } else {
-            Unduhans::create([
+            Unduhan::create([
                 'produk_id' => $produk->id,
                 'jumlah' => 1
             ]);
