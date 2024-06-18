@@ -31,20 +31,20 @@ class ProdukController extends Controller
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'kategori_id' => 'required',
-            'subkategori_id' => 'required',
-            'gambar' => 'required',
-        ], [
-            'kategori_id.required' => 'Kategori harus dipilih!',
-            'subkategori_id.required' => 'Sub Kategori harus dipilih!',
-            'gambar.required' => 'Gambar harus ditambahkan!',
-        ]);
+        // $validator = Validator::make($request->all(), [
+        //     'kategori_id' => 'required',
+        //     'subkategori_id' => 'required',
+        //     'gambar' => 'required',
+        // ], [
+        //     'kategori_id.required' => 'Kategori harus dipilih!',
+        //     'subkategori_id.required' => 'Sub Kategori harus dipilih!',
+        //     'gambar.required' => 'Gambar harus ditambahkan!',
+        // ]);
 
-        if ($validator->fails()) {
-            $errors = $validator->errors()->all();
-            return back()->withInput()->with('errors', $errors);
-        }
+        // if ($validator->fails()) {
+        //     $errors = $validator->errors()->all();
+        //     return back()->withInput()->with('errors', $errors);
+        // }
 
         $kode = $this->kode();
         $gambar = $this->namagambar($request->gambar, $kode);
@@ -198,8 +198,7 @@ class ProdukController extends Controller
     public function namagambar($data, $kode)
     {
         $ext = $data->getClientOriginalExtension();
-        $convert = substr(strstr($kode, "#"), 1);
-        $nama = 'produk/' . $convert . '.' . $ext;
+        $nama = 'produk/' . $kode . '.' . $ext;
         $data->storeAs('public/uploads/', $nama);
 
         return $nama;
